@@ -2,12 +2,13 @@ import os
 import glob
 import numpy as np
 import logging
-import astropy.io.fits as pyfits
+
 from pathlib import Path
 from astropy.io import fits
+# from astropy.io.fits import pyfits
 
-from astropy.nddata import CCDData
-from matplotlib import pyplot as plt
+# from astropy.nddata import CCDData
+# from matplotlib import pyplot as plt
 
 
 class Reduction:
@@ -53,7 +54,7 @@ class Reduction:
         print("Median Bias: ", np.median(self.master_bias))  # print the median of the master bias
         # self.master_bias_vis = self.master_bias.reshape(890, 1024)   # (NAXIS2, NAXIS1)
         try:
-            pyfits.writeto(Path(os.path.join(self.outdir, "master_bias.fit")), self.master_bias,overwrite=True)  # Write the file to the outdir path
+            fits.writeto(Path(os.path.join(self.outdir, "master_bias.fit")), self.master_bias,overwrite=True)  # Write the file to the outdir path
         except:
             self.logger.exception("Something happened while writing masterbias.")
 
@@ -94,7 +95,7 @@ class Reduction:
 
         print("Median Dark: ", np.median(self.master_dark))  # Prints the median of the master dark
         try:  # ΕΔΩ ΝΑ ΚΟΙΤΑΞΩ ΠΙΘΑΝΟ ERROR ΠΟΥ ΘΑ ΠΡΕΠΕΙ ΝΑ ΠΕΤΑΕΙ
-            pyfits.writeto(Path(os.path.join(self.outdir, "master_dark.fit")), self.master_dark, overwrite=True)
+            fits.writeto(Path(os.path.join(self.outdir, "master_dark.fit")), self.master_dark, overwrite=True)
         except:
             self.logger.exception("Something happened while writing masterdark.")
 
@@ -134,11 +135,11 @@ class Reduction:
         print(self.meanvalue)
         print("norm")
         print(self.master_flat_norm)
-        print("vis")
-        print(self.master_flat_vis)
+        # print("vis")
+        # print(self.master_flat_vis)
         try:
-            pyfits.writeto(Path(os.path.join(self.outdir, "master_flat.fit")), self.master_flat, overwrite=True)
-            pyfits.writeto(Path(os.path.join(self.outdir, "master_flat_norm.fit")), self.master_flat_norm, overwrite=True)
+            fits.writeto(Path(os.path.join(self.outdir, "master_flat.fit")), self.master_flat, overwrite=True)
+            fits.writeto(Path(os.path.join(self.outdir, "master_flat_norm.fit")), self.master_flat_norm, overwrite=True)
         except:
             self.logger.exception("Something happened while writing masterflat.")
 
